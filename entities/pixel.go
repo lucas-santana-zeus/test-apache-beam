@@ -6,3 +6,5 @@ type Pixel struct {
 	SourceTypeID int
 	DataInst     string
 }
+
+type PixelMap map[string][]Pixel
