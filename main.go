@@ -1,21 +1,20 @@
 package main
 
 import (
-	"context"
 	"flag"
-	"fmt"
-	"github.com/apache/beam/sdks/v2/go/pkg/beam"
-	"github.com/apache/beam/sdks/v2/go/pkg/beam/x/beamx"
+	"teste-apache-beam/database"
 )
 
 func main() {
 	flag.Parse()
 
-	beam.Init()
+	database.Populate()
 
-	pipeline, scope := beam.NewPipelineWithRoot()
-
-	if err := beamx.Run(context.Background(), pipeline); err != nil {
-		fmt.Println(err.Error())
-	}
+	//beam.Init()
+	//
+	//pipeline, scope := beam.NewPipelineWithRoot()
+	//
+	//if err := beamx.Run(context.Background(), pipeline); err != nil {
+	//	fmt.Println(err.Error())
+	//}
 }
