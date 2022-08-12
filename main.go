@@ -21,6 +21,8 @@ func main() {
 
 	pixelMap := transforms.ReadDatabase(scope)
 
+	temporalPixel := transforms.CalculateTemporal(scope, pixelMap)
+
 	if err := beamx.Run(context.Background(), pipeline); err != nil {
 		fmt.Println(err.Error())
 	}
