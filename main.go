@@ -23,6 +23,8 @@ func main() {
 
 	temporalPixel := transforms.CalculateTemporal(scope, pixelMap)
 
+	transforms.WriteOnDatabase(scope, temporalPixel)
+
 	if err := beamx.Run(context.Background(), pipeline); err != nil {
 		fmt.Println(err.Error())
 	}
