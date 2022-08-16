@@ -19,11 +19,14 @@ func main() {
 
 	pipeline, scope := beam.NewPipelineWithRoot()
 
-	pixelMap := transforms.ReadDatabase(scope)
+	pixels := transforms.ReadDatabase(scope)
 
-	temporalPixel := transforms.CalculateTemporal(scope, pixelMap)
+	groupedPixel := transforms.GroupPixel(scope, pixels)
 
-	transforms.WriteOnDatabase(scope, temporalPixel)
+	transforms.PrintPixels(scope, groupedPixel)
+	//temporalPixel := transforms.CalculateTemporal(scope, pixelMap)
+
+	//transforms.WriteOnDatabase(scope, temporalPixel)
 
 	if err := beamx.Run(context.Background(), pipeline); err != nil {
 		fmt.Println(err.Error())

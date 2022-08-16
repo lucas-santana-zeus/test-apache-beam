@@ -15,11 +15,11 @@ func ReadDatabase(s beam.Scope) beam.PCollection {
 	return beam.ParDo(s, getPixels, beam.Impulse(s))
 }
 
-func getPixels(_ []byte, emit func(pixelMap entities.PixelMap)) {
+func getPixels(_ []byte, emit func(key string, pixel entities.Pixel)) {
 	db := database.DBConnection()
 	defer db.Close()
 
-	pixelMap := make(entities.PixelMap)
+	//pixelMap := make(entities.PixelMap)
 	rows, err := db.Query("select source_id, datatype_id, sourcetype_id, data_inst from pixel")
 	if err != nil {
 		log.Panic(err)
@@ -29,7 +29,6 @@ func getPixels(_ []byte, emit func(pixelMap entities.PixelMap)) {
 		if err := rows.Scan(&p.SourceID, &p.DataTypeID, &p.SourceTypeID, &p.DataInst); err != nil {
 			log.Panic(err)
 		}
-		pixelMap[p.SourceID] = append(pixelMap[p.SourceID], p)
+		emit(p.SourceID, p)
 	}
-	emit(pixelMap)
 }
