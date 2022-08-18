@@ -15,7 +15,7 @@ func ReadDatabase(s beam.Scope) beam.PCollection {
 	return beam.ParDo(s, getPixels, beam.Impulse(s))
 }
 
-func getPixels(_ []byte, emit func(pixelMap entities.PixelMap)) {
+func getPixels(_ []byte, emit func(slice []entities.Pixel)) {
 	db := database.DBConnection()
 	defer db.Close()
 
@@ -31,5 +31,7 @@ func getPixels(_ []byte, emit func(pixelMap entities.PixelMap)) {
 		}
 		pixelMap[p.SourceID] = append(pixelMap[p.SourceID], p)
 	}
-	emit(pixelMap)
+	for _, slice := range pixelMap {
+		emit(slice)
+	}
 }
